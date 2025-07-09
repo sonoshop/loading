@@ -1,63 +1,31 @@
-#loading-wrapper {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background-color: #630101;
-  overflow: hidden;
-  z-index: 9999;
-  font-family: 'Noto Serif TC', serif;
+function createLoadingOverlay() {
+  const loadingHTML = `
+    <div id="loading-wrapper">
+      <div id="loading-left" class="loading-panel"></div>
+      <div id="loading-right" class="loading-panel"></div>
+      <div id="loading-text">
+        <img src="https://raw.githubusercontent.com/sonoshop/shop-img/1074881a31b38bd6404c31f724e9569a84d0dcaf/SONO_LOGO.svg" alt="Logo" />
+        <span>Sono in Italia</span>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', loadingHTML);
+  document.body.style.overflow = 'hidden';
+
+  const wrapper = document.getElementById('loading-wrapper');
+
+  setTimeout(() => {
+    wrapper.classList.add('fade-text');
+  }, 1500);
+
+  setTimeout(() => {
+    wrapper.classList.add('open');
+  }, 2200);
+
+  setTimeout(() => {
+    if (wrapper) wrapper.remove();
+    document.body.style.overflow = 'auto';
+  }, 4000);
 }
 
-.loading-panel {
-  position: absolute;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background-color: #630101;
-  transition: transform 1s ease;
-  z-index: 2;
-}
-
-#loading-left {
-  left: 0;
-  transform: translateX(0);
-}
-
-#loading-right {
-  right: 0;
-  transform: translateX(0);
-}
-
-#loading-wrapper.open #loading-left {
-  transform: translateX(-100%);
-}
-
-#loading-wrapper.open #loading-right {
-  transform: translateX(100%);
-}
-
-#loading-text {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 20px;
-  letter-spacing: 0.15em;
-  opacity: 1;
-  transition: opacity 1s ease, transform 1s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  z-index: 3;
-}
-
-#loading-wrapper.fade-text #loading-text {
-  opacity: 0;
-  transform: translate(-50%, -60%);
-}
-
-#loading-text img {
-  width: 60px;
-  height: auto;
-}
+window.addEventListener('DOMContentLoaded', createLoadingOverlay);
