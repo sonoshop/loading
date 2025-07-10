@@ -14,18 +14,23 @@ function createLoadingOverlay() {
 
   const wrapper = document.getElementById('loading-wrapper');
 
-  setTimeout(() => {
-    wrapper.classList.add('fade-text');
-  }, 1500);
+  requestAnimationFrame(() => {
+    // 強制 reflow，確保動畫能被觸發
+    void wrapper.offsetWidth;
 
-  setTimeout(() => {
-    wrapper.classList.add('open');
-  }, 2200);
+    setTimeout(() => {
+      wrapper.classList.add('fade-text'); // 淡出文字
+    }, 500);
 
-  setTimeout(() => {
-    if (wrapper) wrapper.remove();
-    document.body.style.overflow = 'auto';
-  }, 4000);
+    setTimeout(() => {
+      wrapper.classList.add('open'); // 左右開門
+    }, 1200);
+
+    setTimeout(() => {
+      wrapper.remove(); // 移除 loading 畫面
+      document.body.style.overflow = 'auto'; // 解鎖滾動
+    }, 2500);
+  });
 }
 
 window.addEventListener('DOMContentLoaded', createLoadingOverlay);
